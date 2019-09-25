@@ -5,7 +5,7 @@ Theme Name: Colorway
 * Version 5.0.3
 ***************************************
 1. Added Theme Update functionality from git.
-2. Fixed Sanitization issues in search.php
+2. Fixed Sanitization issues in search.php file.
 
 * Version 5.0.2
 ***************************************
