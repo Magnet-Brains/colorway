@@ -602,7 +602,7 @@ add_action('admin_notices', 'general_admin_notice_sec');
 
 require get_template_directory() . '/includes/colorway-theme-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/MagnetBrains/ColorwayTheme',
+	'https://github.com/MagnetBrains/colorway',
 	__FILE__,
 	'colorway'
 );
