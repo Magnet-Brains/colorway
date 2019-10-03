@@ -437,66 +437,27 @@ function add_star_rating() {
 
 include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
-if (!(file_exists(WP_PLUGIN_DIR . 'colorway-sites/colorway-sites.php')) && !(is_plugin_active('colorway-sites/colorway-sites.php'))) {
+if (!(file_exists(WP_PLUGIN_DIR . 'colorway-sites-master/colorway-sites.php')) && !(is_plugin_active('colorway-sites-master/colorway-sites.php'))) {
 
-   add_action('admin_notices', 'general_admin_notice');
+    add_action('admin_notices', 'general_admin_notice');
 }
 
 function general_admin_notice() {
     global $pagenow;
     if ($pagenow != '') {
         echo '<div id="colorway-sites-on-active" class="colorway-notice notice is-dismissible " data-repeat-notice-after="">
-    <div class="notice-container">
-<div class="notice-image">
-<img src="' . get_template_directory_uri() . '/assets/images/logo.png" class="custom-logo" alt="Colorway"></div> 
-<div class="notice-content">
-<h2 class="notice-heading">
-Thank you for installing Colorway!
-</h2>
-<p style="font-size:16px">Did you know Colorway comes with dozens of ready-to-use <b>Colorway Site templates</b>?</p>
-<p style="font-size:14px">Clicking the button below will install and activate the Colorway Sites importer plugin.</p>
-<div class="colorway-review-notice-container">';
-
-		// Colorway Sites - Installed but Inactive.
-		// Colorway Premium Sites - Inactive.
-		if ( file_exists( WP_PLUGIN_DIR . '/elementor/elementor.php' ) && file_exists( WP_PLUGIN_DIR . '/colorway-sites/colorway-sites.php' ) && is_plugin_inactive( '/elementor/elementor.php' )&& is_plugin_inactive( '/colorway-sites/colorway-sites.php' ) ) {
-
-			$class       = 'button cwy-sites-inactive';
-			$button_text = __( 'Get Started with Colorway', 'colorway' );
-			$data_slug   = json_encode( array('colorway-sites','elementor' ) );
-			$data_init   = json_encode( array('/colorway-sites/colorway-sites.php', '/elementor/elementor.php' ) );
-
-			// Colorway Sites - Not Installed.
-			// Colorway Premium Sites - Inactive.
-		} elseif ( ! file_exists( WP_PLUGIN_DIR . '/elementor/elementor.php' ) && is_plugin_inactive( '/elementor/elementor.php' ) ) {
-
-			$class       = 'button cwy-sites-notinstalled';
-			$button_text = __( 'Get Started with Colorway', 'colorway' );
-			$data_slug   = json_encode( array( 'elementor' ) );
-			$data_init   = json_encode( array( '/elementor/elementor.php' ) );
-
-			// Colorway Premium Sites - Active.
-		} elseif ( is_plugin_active( 'colorway-pro-sites/colorway-pro-sites.php' ) ) {
-			$class       = 'active';
-			$button_text = __( 'Start Building With Elementor »', 'colorway' );
-			$link        = admin_url( 'themes.php?page=colorway-sites' );
-		} else {
-			$class       = 'active';
-			$button_text = __( 'Start Building With Elementor »', 'colorway' );
-			$link        = admin_url( 'themes.php?page=colorway-sites' );
-		}
-
-		printf(
-			'<a class="%1$s" %2$s %3$s %4$s> %5$s </a>',
-			esc_attr( $class ),
-			isset( $link ) ? 'href="' . esc_url( $link ) . '"' : '',
-			isset( $data_slug ) ? 'data-slug="' . esc_attr( $data_slug ) . '"' : '',
-			isset( $data_init ) ? 'data-init="' . esc_attr( $data_init ) . '"' : '',
-			esc_html( $button_text )
-		);
-        echo '<img src="' . get_template_directory_uri() . '/assets/images/left-orange-arrow.gif"/></div>	
-</div>	
-        </div>
+                <div class="notice-container">
+                <div class="notice-image">
+                    <img src="' . get_template_directory_uri() . '/assets/images/logo.png" class="custom-logo" alt="Colorway"></div> 
+                        <div class="notice-content">
+                            <h2 class="notice-heading">Thank you for installing Colorway!</h2>
+                            <p style="font-size:16px">Did you know Colorway comes with dozens of ready-to-use <b>Colorway Site templates</b>?</p>
+                            <p style="font-size:14px">Clicking the button below will install and activate the Colorway Sites importer plugin.</p>
+                            <div class="colorway-review-notice-container">
+        <a class="button cwy-sites-notinstalled">Get Started with Colorway</a>';
+        
+        printf('<a class="%1$s" %2$s %3$s %4$s> %5$s </a>', esc_attr($class), isset($link) ? 'href="' . esc_url($link) . '"' : '', isset($data_slug) ? 'data-slug="' . esc_attr($data_slug) . '"' : '', isset($data_init) ? 'data-init="' . esc_attr($data_init) . '"' : '', esc_html($button_text));
+        echo '<img src="' . get_template_directory_uri() . '/assets/images/left-orange-arrow.gif"/></div></div> </div>
 <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
     }
 }
@@ -569,12 +530,12 @@ function colorway_defer_scripts($tag, $handle, $src) {
 }
 
 function general_admin_notice_sec() {
-    if ( ! PAnD::is_admin_notice_active( 'disable-done-notice-forever' ) ) {
-		return;
-	}
+    if (!PAnD::is_admin_notice_active('disable-done-notice-forever')) {
+        return;
+    }
     global $pagenow;
     include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-    if (is_plugin_active('colorway-sites/colorway-sites.php')) {
+    if (is_plugin_active('colorway-sites-master/colorway-sites.php')) {
         echo '<div id="colorway-sites-on-active" data-dismissible="disable-done-notice-forever" class="colorway-notice updated notice notice-success is-dismissible">
     <div class="notice-container">
 <div class="notice-image">
@@ -593,7 +554,8 @@ Thank you for installing Colorway!
 <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
     }
 }
-add_action( 'admin_init', array( 'PAnD', 'init' ) );
+
+add_action('admin_init', array('PAnD', 'init'));
 add_action('admin_notices', 'general_admin_notice_sec');
 
 /*
@@ -602,9 +564,9 @@ add_action('admin_notices', 'general_admin_notice_sec');
 
 require get_template_directory() . '/includes/colorway-theme-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/MagnetBrains/colorway',
-	__FILE__,
-	'colorway'
+                'https://github.com/MagnetBrains/colorway', __FILE__, 'colorway'
 );
 
 $myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
+

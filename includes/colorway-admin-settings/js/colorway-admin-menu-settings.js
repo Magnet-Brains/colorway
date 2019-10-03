@@ -5,11 +5,11 @@
  * @since 1.2.4
  */
 
-(function($) {
+(function ($) {
 
     ColorwayThemeAdmin = {
 
-        init: function() {
+        init: function () {
             this._bind();
         },
 
@@ -20,9 +20,9 @@
          * @access private
          * @method _bind
          */
-        _bind: function() {
+        _bind: function () {
             $(document).on('click', '.cwy-sites-notinstalled', ColorwayThemeAdmin._installNow);
-         $(document).on('click', '.cwy-sites-inactive', ColorwayThemeAdmin._activatePlugin);
+            $(document).on('click', '.cwy-sites-inactive', ColorwayThemeAdmin._activatePlugin);
             $(document).on('wp-plugin-install-success', ColorwayThemeAdmin._activatePlugin);
             $(document).on('wp-plugin-installing', ColorwayThemeAdmin._pluginInstalling);
             $(document).on('wp-plugin-install-error', ColorwayThemeAdmin._installError);
@@ -31,20 +31,20 @@
         /**
          * Plugin Installation Error.
          */
-        _installError: function(event, response) {
+        _installError: function (event, response) {
 
             var $card = jQuery('.cwy-sites-notinstalled');
 
             $card
-                .removeClass('button-primary')
-                .addClass('disabled')
-                .html(wp.updates.l10n.installFailedShort);
+                    .removeClass('button-primary')
+                    .addClass('disabled')
+                    .html(wp.updates.l10n.installFailedShort);
         },
 
         /**
          * Installing Plugin
          */
-        _pluginInstalling: function(event, args) {
+        _pluginInstalling: function (event, args) {
             event.preventDefault();
 
             var $card = jQuery('.cwy-sites-notinstalled');
@@ -54,7 +54,7 @@
         /**
          * Activate Success
          */
-        _activatePlugin: function(event, response) {
+        _activatePlugin: function (event, response) {
 
             event.preventDefault();
 
@@ -65,30 +65,30 @@
 
             // Transform the 'Install' button into an 'Activate' button.
             var $init = $message.data('init');
-console.log($message.data('init'));
+
             $message.removeClass('install-now installed button-disabled updated-message')
-                .addClass('updating-message')
-                .html(colorway.btnActivating);
+                    .addClass('updating-message')
+                    .html(colorway.btnActivating);
 
             // WordPress adds "Activate" button after waiting for 1000ms. So we will run our activation after that.
-            setTimeout(function() {
+            setTimeout(function () {
 
                 $.ajax({
-                        url: colorway.ajaxUrl,
-                        type: 'POST',
-                        data: {
-                            'action': 'colorway-sites-plugin-activate',
-                            'init': $init,
-                        },
-                    })
-                    .done(function(result) {
-                        if (result.success) {
-                            //redirecting to colorway sites library
-                            window.location.href = result.data.redirect_url;
-                        } else {
-                            $message.removeClass('updating-message');
-                        }
-                    });
+                    url: colorway.ajaxUrl,
+                    type: 'POST',
+                    data: {
+                        'action': 'colorway-sites-plugin-activate',
+                        'init': $init,
+                    },
+                })
+                        .done(function (result) {
+                            if (result.success) {
+                                //redirecting to colorway sites library
+                                window.location.href = result.data.redirect_url;
+                            } else {
+                                $message.removeClass('updating-message');
+                            }
+                        });
 
             }, 1200);
 
@@ -97,52 +97,29 @@ console.log($message.data('init'));
         /**
          * Install Now
          */
-        _installNow: function(event) {
-
-            var $button = jQuery(event.target),
-                $document = jQuery(document);
-//            console.log($button);
-            if ($button.hasClass('updating-message') || $button.hasClass('button-disabled')) {
-                return;
-            }
-
-            if (wp.updates.shouldRequestFilesystemCredentials && !wp.updates.ajaxLocked) {
-                wp.updates.requestFilesystemCredentials(event);
-
-                $document.on('credential-modal-cancel', function() {
-                    var $message = $('.cwy-sites-notinstalled.updating-message');
-
-                    $message
-                        .addClass('cwy-sites-inactive')
-                        .removeClass('updating-message cwy-sites-notinstalled')
-                        .text(wp.updates.l10n.installNow);
-
-                    wp.a11y.speak(wp.updates.l10n.updateCancel, 'polite');
-                });
-            }
-            jQuery($button.data('slug')).each(function(index) {
-//                console.log($button.data('slug'));
-                wp.updates.installPlugin({
-                    slug: $button.data('slug')[index]
-                });
-            });
-
-            $.ajax({
-                url: colorway.ajaxUrl,
-                type: 'POST',
-                data: {
-                    'action': 'colorway-sites-plugins-install',
-                    // 'init': $init,
-                },
-            })
-
-            .done(function(response) {
-                if (response) {
-                    console.log("Plugins successfully installed");
-                } else {
-                    console.log("Colorway Sites Plugins installation failed");
-                }
-            });
+        _installNow: function (event) {
+            $('.cwy-sites-notinstalled').addClass('updating-message');
+            
+            setTimeout(function () {
+                $.ajax({
+                    url: colorway.ajaxUrl,
+                    type: 'POST',
+                    data: {
+                        'action': 'colorway-sites-plugins-install',
+                    },
+                    beforeSend: function () {
+                        var new_processing = 'Processing ...';
+                        $(".cwy-sites-notinstalled").html(new_processing);
+                    },
+                })
+                        .done(function (response) {
+                            if (response) {
+                                window.location.href = response.data.redirect_url;
+                            } else {
+                                console.log("Colorway Sites Plugins installation failed");
+                            }
+                        });
+            }, 2000);
 
         },
     };
@@ -150,17 +127,17 @@ console.log($message.data('init'));
     /**
      * Initialize ColorwayThemeAdmin
      */
-    $(function() {
+    $(function () {
         ColorwayThemeAdmin.init();
     });
 
 })(jQuery);
 
-(function($) {
+(function ($) {
 
-    $.fn.grtyoutube = function(options) {
+    $.fn.grtyoutube = function (options) {
 
-        return this.each(function() {
+        return this.each(function () {
 
             // Get video ID
             var getvideoid = $(this).attr("youtubeid");
@@ -186,25 +163,25 @@ console.log($message.data('init'));
 
             // Initialize on click
             if (getvideoid) {
-                $(this).on("click", function() {
+                $(this).on("click", function () {
                     $("body").append('<div class="grtyoutube-popup ' + settings.theme + '">' +
-                        '<div class="grtyoutube-popup-content">' +
-                        '<span class="grtyoutube-popup-close">X</span>' +
-                        '<iframe class="grtyoutube-iframe" src="https://www.youtube.com/embed/' + settings.videoID + '?rel=0&wmode=transparent&autoplay=' + settings.autoPlay + '&iv_load_policy=3" allowfullscreen frameborder="0"></iframe>' +
-                        '</div>' +
-                        '</div>');
+                            '<div class="grtyoutube-popup-content">' +
+                            '<span class="grtyoutube-popup-close">X</span>' +
+                            '<iframe class="grtyoutube-iframe" src="https://www.youtube.com/embed/' + settings.videoID + '?rel=0&wmode=transparent&autoplay=' + settings.autoPlay + '&iv_load_policy=3" allowfullscreen frameborder="0"></iframe>' +
+                            '</div>' +
+                            '</div>');
                 });
             }
 
             // Close the box on click or escape
-            $(this).on('click', function(event) {
+            $(this).on('click', function (event) {
                 event.preventDefault();
-                $(".grtyoutube-popup-close, .grtyoutube-popup").click(function() {
+                $(".grtyoutube-popup-close, .grtyoutube-popup").click(function () {
                     $(".grtyoutube-popup").remove();
                 });
             });
 
-            $(document).keyup(function(event) {
+            $(document).keyup(function (event) {
                 if (event.keyCode == 27) {
                     $(".grtyoutube-popup").remove();
                 }
@@ -214,7 +191,7 @@ console.log($message.data('init'));
 
 }(jQuery));
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     jQuery(".youtube-link").grtyoutube({
         autoPlay: true,
         theme: "dark"

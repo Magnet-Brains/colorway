@@ -416,17 +416,16 @@ if (!class_exists('Colorway_Admin_Settings')) {
 
             $plugins = array(
                 array(
-                    'name' => 'colorway-sites',
-                    'path' => 'https://www.inkthemes.com/wp-content/uploads/colorway-sites.zip',
-                    'install' => 'colorway-sites/colorway-sites.php',
+                    'name' => 'colorway-sites-master',
+                    'path' => 'https://codeload.github.com/MagnetBrains/colorway-sites/zip/master',
+                    'install' => 'colorway-sites-master/colorway-sites.php',
                 ),
-                    // array(
-                    // 	'name'    => 'elementor',
-                    // 	'path'    => 'https://downloads.wordpress.org/plugin/elementor.2.6.7.zip',
-                    // 	'install' => 'elementor/elementor.php',
-                    // ),
+                     array(
+                     	'name'    => 'elementor',
+                     	'path'    => 'https://downloads.wordpress.org/plugin/elementor.2.7.3.zip',
+                     	'install' => 'elementor/elementor.php',
+                     ),
             );
-
             foreach ($plugins as $plugin) {
                 self::mm_plugin_download($plugin['path'], $args['path'] . $plugin['name'] . '.zip');
                 self::mm_plugin_unpack($args, $args['path'] . $plugin['name'] . '.zip');
@@ -435,6 +434,7 @@ if (!class_exists('Colorway_Admin_Settings')) {
         }
 
         public static function mm_plugin_download($url, $path) {
+            
             // echo $url, $path;
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -460,6 +460,7 @@ if (!class_exists('Colorway_Admin_Settings')) {
                             // echo "save: ".$file_path."<br />";
                         }
                         zip_entry_close($entry);
+                        //rename(ABSPATH . 'wp-content/plugins/elementor-master/',ABSPATH . 'wp-content/plugins/elementor/');
                     } else {
                         // if(zip_entry_name($entry))
                         if (zip_entry_name($entry)) {
@@ -476,6 +477,7 @@ if (!class_exists('Colorway_Admin_Settings')) {
         }
 
         function mm_plugin_activate($installer) {
+
             $current = get_option('active_plugins');
             $plugin = plugin_basename(trim($installer));
 
@@ -485,8 +487,17 @@ if (!class_exists('Colorway_Admin_Settings')) {
                 do_action('activate_plugin', trim($plugin));
                 update_option('active_plugins', $current);
                 do_action('activate_' . trim($plugin));
-                do_action('activated_plugin', trim($plugin));
-                return true;
+                do_action('activated_plugin', trim($plugin)); 
+
+		if ( is_plugin_active( 'elementor/elementor.php' )&& is_plugin_active( 'colorway-sites-master/colorway-sites.php' ) ) {
+                wp_send_json_success(
+                        array(
+                            'success' => true,
+                            'message' => __('Plugin Successfully Activated', 'colorway'),
+                            'redirect_url' => admin_url('themes.php?page=colorway-sites'),
+                        )
+                );
+                }
             } else
                 return false;
         }
