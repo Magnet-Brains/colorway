@@ -170,12 +170,5 @@
             </div>
         </div>       
         <div class="clear"></div>
-        <div class="cw-content <?php echo esc_attr($container); ?>">
-            <div class="cyw-container">
-                <div class="<?php
-                if ($container != 'container-head container') {
-                    echo 'container';
-                }
-                ?>">
-                    <!--Start Container Div-->
+        
 

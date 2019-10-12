@@ -613,9 +613,6 @@ class colorway_Customizer {
             ),
             'typography_line_height' => array(
             ),
-//            'readmore_btn_border_r' => array(
-//
-//            ),
             'home_page_slider_control' => array(
                 'colorway_home_page_slider'
             ),
@@ -3000,7 +2997,8 @@ function colorway_customize_register($wp_customize) {
         'description' => __('Measurement is in pixel.', 'colorway'),
         'input_attrs' => array(
             'min' => 0,
-            'max' => 399.999,
+            'max' => 390,
+            'step'  => 0.9,
         ),
             )
             )

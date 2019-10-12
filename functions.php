@@ -456,7 +456,7 @@ function general_admin_notice() {
                             <div class="colorway-review-notice-container">
         <a class="button cwy-sites-notinstalled">Get Started with Colorway</a>';
         
-        printf('<a class="%1$s" %2$s %3$s %4$s> %5$s </a>', esc_attr($class), isset($link) ? 'href="' . esc_url($link) . '"' : '', isset($data_slug) ? 'data-slug="' . esc_attr($data_slug) . '"' : '', isset($data_init) ? 'data-init="' . esc_attr($data_init) . '"' : '', esc_html($button_text));
+//        printf('<a class="%1$s" %2$s %3$s %4$s> %5$s </a>', esc_attr($class), isset($link) ? 'href="' . esc_url($link) . '"' : '', isset($data_slug) ? 'data-slug="' . esc_attr($data_slug) . '"' : '', isset($data_init) ? 'data-init="' . esc_attr($data_init) . '"' : '', esc_html($button_text));
         echo '<img src="' . get_template_directory_uri() . '/assets/images/left-orange-arrow.gif"/></div></div> </div>
 <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
     }

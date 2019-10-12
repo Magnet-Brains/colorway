@@ -20,7 +20,25 @@ switch ($a) {
     default:
         $colorway_sidebar = 'right';
 }
+$b = get_option('container-layout');
+       switch ($b) {
+           case 'container':
+               $container = 'container-head container';
+               break;
+           case 'fullwidth-container':
+               $container = 'container-fluid';
+               break;
+           default:
+               $container = 'container-fluid';
+       }
 ?>
+<div class="cw-content <?php echo esc_attr($container); ?>">
+           <div class="cyw-container">
+               <div class="<?php
+               if ($container != 'container-head container') {
+                   echo 'container';
+               }
+               ?>">
     <!--Start Content Grid-->
     <div class="row content">
         <?php if ($colorway_sidebar == 'left') { ?>
@@ -93,7 +111,7 @@ switch ($a) {
     </div>
 </div>
 </div>
-
+</div>
 <div class="clearfix"></div>
 <!--End Container Div-->
 <?php get_footer(); ?>

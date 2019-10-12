@@ -5,8 +5,6 @@
  *
  * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  */
-
-
 (function ($) {
     var api = wp.customize;
     /******** WordPress Core *********/
