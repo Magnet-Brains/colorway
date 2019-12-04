@@ -1,6 +1,9 @@
 Theme Name: Colorway
 
 ========================
+* Version 5.0.7
+***************************************
+1. Changed elementor beta version zip url.
 
 * Version 5.0.6
 ***************************************
